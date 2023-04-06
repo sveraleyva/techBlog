@@ -19,12 +19,15 @@
             <li>
               <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Dashboard</a>
             </li>
+            {{#if loggedIn}}
             <li>
-              <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Login</a>
+              <button class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0" id="logout">Logout</button>
             </li>
+            {{else}}
             <li>
-              <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Logout</a>
+              <button class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0" id="login">Log In</button>
             </li>
+            {{/if}}
           </ul>
         </div>
       </div>
@@ -35,12 +38,17 @@
       {{{ body }}}
     </main>
     {{!-- Code copied (but changed by me) from Flobite: https://flowbite.com/docs/components/footer/ --}}
-    <footer class="bg-white rounded-lg shadow m-4">
+    <footer class="bg-white rounded-lg m-4">
         <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
             <hr class="my-6 border-gray-200 sm:mx-auto lg:my-8" />
             <span class="block text-sm text-gray-500 sm:text-center">© 2023 Samantha Vera Leyva</span>
         </div>
     </footer>
+    {{#if loggedIn}}
+    <script src="/js/logout.js"></script>
+    {{else}}
+    <script src="/js/login.js"></script>
+    {{/if}}
   </div>
 </body>
 
