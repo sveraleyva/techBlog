@@ -1,19 +1,25 @@
-<div class="flex flex-row flex-wrap justify-evenly mx-6 my-2">
+<div class="flex flex-col flex-wrap justify-evenly my-2 mx-4">
+    <div class="flex flex-row my-2 mx-4">
+        <h2 class="p-4 text-center font-bold text-2xl">YOUR POSTS</h2>
+        <div class="text-center my-4 px-8 p-2">
+            <a href="/dashboard/new" class="text-black bg-[#BFD7B5] hover:bg-[#12664F] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">MAKE A NEW POST</a>
+        </div>
+    </div>
     {{#each posts as |post|}}
-        <div class="my-2 mx-4 bg-[#5C6784] border border-gray-200 shadow hover:bg-gray-100 text-white">
+        <div class="my-2 mx-2 bg-[#5C6784] border border-gray-200 shadow hover:bg-gray-100 text-white">
             <div class="bg-[#1D263B] flex flex-row p-1">
                 <div class="pl-1">
                     <p class="p-4 text-lg font-semibold">
                     {{post.title}}
                     </p>
                 </div>
-                <div class="pl-8">
+                <div class="pl-6">
                     <p class="p-4 text-sm font-light italic">
-                    Created by {{post.user.username}} on {{dateFormat post.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}
+                    Created on {{dateFormat post.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}
                     </p>
                 </div>
             </div>
-            <p class="mx-2">
+            <p class="mx-2 hover:text-black">
             {{post.body}}
             </p>
         </div>
