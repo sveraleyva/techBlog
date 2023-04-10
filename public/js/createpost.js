@@ -1,18 +1,20 @@
 async function createPost(event) {
   event.preventDefault();
+  alert("working!");
   const title = document.querySelector("#title").value.trim();
   const body = document.querySelector("#body").value.trim();
-  const response = await fetch("/api/post", {
-    method: "POST",
-    body: JSON.stringify({ title, body }),
-    headers: { "Content-Type": "applications/json " },
-  });
-  if (response.ok) {
-    console.log("good response");
-    document.location.replace("/dashboard");
-  } else {
-    alert("Your post failed");
+  if (title && body) {
+    const response = await fetch("/api/post", {
+      method: "POST",
+      body: JSON.stringify({ title, body }),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+      document.location.replace("/dashboard");
+    } else {
+      alert("Failed to add post");
+    }
   }
 }
 
-document.querySelector(".newPost-form").addEventListener("click", createPost);
+document.querySelector(".newPost-form").addEventListener("submit", createPost);

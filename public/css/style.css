@@ -787,8 +787,8 @@ video {
     background-color: transparent;
   }
 
-  .md\:hover\:text-blue-700:hover {
+  .md\:hover\:text-\[\#12664F\]:hover {
     --tw-text-opacity: 1;
-    color: rgb(29 78 216 / var(--tw-text-opacity));
+    color: rgb(18 102 79 / var(--tw-text-opacity));
   }
 }
