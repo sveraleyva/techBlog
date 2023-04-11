@@ -15,6 +15,21 @@ router.post("/", async (req, res) => {
   }
 });
 
+// add a comment to a post
+router.post("/", async (req, res) => {
+  console.log("post_id: req.post.id,", req.post.id);
+  try {
+    const commentData = await Post.create({
+      body: req.body.commentBody,
+      user_id: req.session.user_id,
+      post_id: req.post.id,
+    });
+    res.status(200).json(postData);
+  } catch (err) {
+    res.status(200).json(err);
+  }
+});
+
 // update a single post by id -> good to go
 // router.put("/:id", async (req, res) => {
 //   try {
