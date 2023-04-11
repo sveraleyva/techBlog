@@ -21,4 +21,21 @@ router.get("/", async (req, res) => {
   res.render("all", { posts, loggedIn: req.session.loggedIn });
 });
 
+// get a single post by id
+router.get("/:id", async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+        },
+      ],
+    });
+    const post = postData.get({ plain: true });
+    res.render("singlepost", { post, loggedIn: req.session.loggedIn });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

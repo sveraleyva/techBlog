@@ -12,7 +12,7 @@ router.get("/dashboard", (req, res) => {
   res.redirect("/");
 });
 
-// All posts from logged-in user route
+// Get all posts from logged-in user route
 router.get("/", withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
@@ -27,49 +27,9 @@ router.get("/", withAuth, async (req, res) => {
   }
 });
 
-// router.get("/", withAuth, async (req, res) => {
-//   try {
-//     const postData = await Post.findAll({
-//       where: {
-//         userId: req.session.userId,
-//       },
-//     });
-//     const posts = postData.map((post) => post.get({ plain: true }));
-//     res.render("all-user-posts", {
-//       layout: "dashboard",
-//       posts,
-//     });
-//   } catch (err) {
-//     res.redirect("login");
-//   }
-// });
-
-// // Get all posts by user
-// router.get("/:user_id", async (req, res) => {
-//   console.log("posts hit");
-//   try {
-//     const postData = await Post.findAll({
-//       where: {
-//         user_id: req.session.user_id,
-//       },
-//       include: [User],
-//     });
-//     const posts = postData.map((post) => post.get({ plain: true }));
-//     res.render("userPosts", { posts, loggedIn: req.session.user_id });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
+// Go to the make a new post page
 router.get("/new", withAuth, async (req, res) => {
   res.render("createpost");
 });
-
-// router.get("/edit/:id", withAuth, async (req, res) => {
-//     try {
-//         const postData = await Post.findByPk(req.params.id);
-//          if (postData) {}
-//     }
-// });
 
 module.exports = router;
