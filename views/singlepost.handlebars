@@ -31,7 +31,7 @@
                 <p class="mx-2 hover:text-black">
                     {{comment.body}}
                 </p>
-                <p class="text-xs text-gray-400 pl-2">- {{comment.user.username}} commented on {{dateFormat comment.user.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}</p>
+                <p class="text-xs text-gray-400 pl-2">{{comment.user.username}} commented on {{dateFormat comment.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}</p>
             </div>
             {{/each}}
         </div>
