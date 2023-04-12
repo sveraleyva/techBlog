@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// get a single post by id
+// get a single post (and its comments) by id
 router.get("/:id", async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
@@ -30,6 +30,9 @@ router.get("/:id", async (req, res) => {
 
     const post = postData.get({ plain: true });
 
+    // checks if the user selecting the post is the owner of the post
+    const ownerOfPost = post.user_id === req.session.user_id;
+
     const commentData = await Comment.findAll({
       include: {
         model: User,
@@ -40,14 +43,17 @@ router.get("/:id", async (req, res) => {
       },
     });
 
+    const loggedIn = req.session.loggedIn;
+    console.log(loggedIn, ownerOfPost);
+
     const comments = commentData.map((comment) => comment.get({ plain: true }));
-    console.log("comments at get single post by id route", comments);
 
     res.render("singlepost", {
       post,
       comments,
       loggedIn: req.session.loggedIn,
       user_id: req.session.user_id,
+      ownerOfPost,
     });
   } catch (err) {
     res.status(500).json(err);
@@ -75,6 +81,7 @@ router.post("/:id", async (req, res) => {
   }
 });
 
+// route to the edit post page
 router.get("/:id/edit", async (req, res) => {
   const postData = await Post.findByPk(req.params.id, {
     include: [
@@ -95,7 +102,7 @@ router.get("/:id/edit", async (req, res) => {
   res.redirect("/");
 });
 
-// update a single post by id -> good to go
+// update a single post by id
 router.put("/:id/edit", async (req, res) => {
   console.log("update post route hit");
   try {
@@ -117,22 +124,21 @@ router.put("/:id/edit", async (req, res) => {
 });
 
 // delete a single post by id
-// router.delete("/:id", async (req, res) => {
-//   try {
-//     const postData = await Post.destroy({
-//       where: {
-//         id: req.params.id,
-//         user_id: req.session.user_id,
-//       },
-//     });
-//     if (!postData) {
-//       res.status(404).json({ message: "NO POST HAS THIS ID" });
-//       return;
-//     }
-//     res.status(200).json(postData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+router.delete("/:id", async (req, res) => {
+  try {
+    const postData = await Post.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!postData) {
+      res.status(404).json({ message: "NO POST HAS THIS ID" });
+      return;
+    }
+    res.status(200).json(postData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 module.exports = router;

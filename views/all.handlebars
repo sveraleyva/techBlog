@@ -3,13 +3,11 @@
         <div class="post my-2 mx-2 bg-[#5C6784] border border-gray-200 shadow hover:bg-gray-100 text-white" id={{post.id}}>
             <div class="bg-[#1D263B] flex flex-row p-1">
                 <div class="pl-1">
-                    <p class="p-4 text-lg font-semibold">
-                    {{post.title}}
-                    </p>
+                    <a class="p-4 text-lg font-semibold" href="api/post/{{post.id}}">{{post.title}}</a>
                 </div>
                 <div class="pl-6">
                     <p class="p-4 text-sm font-light italic">
-                    Created by {{post.user.username}} on {{dateFormat post.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}
+                    Created on {{dateFormat post.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}
                     </p>
                 </div>
             </div>

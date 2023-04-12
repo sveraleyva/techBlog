@@ -16,7 +16,7 @@ async function editPost(event) {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      const data = await response.json();
+      document.location.replace(`/api/post/${postId}`);
     } catch (err) {
       alert("Failed to edit post");
       console.error(err);
