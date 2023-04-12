@@ -53,7 +53,7 @@ router.post("/:id", async (req, res) => {
   try {
     console.log("post route is engaged, here's your post id", req.params.id);
     const post = await Post.findByPk(req.params.id);
-    alert("Here's your post!", post);
+    console.log("Here's your post!", post);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
@@ -67,7 +67,7 @@ router.post("/:id", async (req, res) => {
 
     res.status(201).json({ message: "Comment added successfully" });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(400);
   }
 });
 

@@ -10,7 +10,7 @@ async function addComment(event) {
   const postId = parseInt(document.querySelector("#postId").textContent.trim());
   if (body && postId) {
     try {
-      const response = await fetch(`/${postId}`, {
+      const response = await fetch(`/api/post/${postId}`, {
         method: "POST",
         body: JSON.stringify({ body }),
         headers: { "Content-Type": "application/json" },
