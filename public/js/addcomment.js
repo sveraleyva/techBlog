@@ -3,6 +3,12 @@ function showForm() {
   commentForm.classList.remove("hidden");
 }
 
+function hideForm() {
+  console.log("hide form activated");
+  const commentForm = document.getElementById("commentForm");
+  commentForm.classList.add("hidden");
+}
+
 async function addComment(event) {
   event.preventDefault();
   const body = document.querySelector("#commentBody").value.trim();
@@ -14,18 +20,20 @@ async function addComment(event) {
         body: JSON.stringify({ body }),
         headers: { "Content-Type": "application/json" },
       });
-      console.log("response", response);
       if (!response.ok) {
         throw new Error(response.statusText);
       }
+      hideForm();
+      // refresh the page so the new comment is displayed
+      document.location.replace(`/api/post/${postId}`);
       const data = await response.json();
-      alert("Comment added successfully");
     } catch (err) {
+      alert("Failed to add post");
       console.error(err);
-      alert("Failed to add comment");
     }
   }
 }
 
-document.querySelector("#commentForm").addEventListener("submit", addComment);
+
 document.querySelector("#displayComment").addEventListener("click", showForm);
+document.querySelector("#commentForm").addEventListener("submit", addComment);

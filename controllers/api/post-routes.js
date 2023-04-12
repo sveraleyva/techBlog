@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { Post, User, Comment } = require("../../models");
+const withAuth = require("../../utils/auth");
 
 // Make a new post
 router.post("/", async (req, res) => {
@@ -46,6 +47,7 @@ router.get("/:id", async (req, res) => {
       post,
       comments,
       loggedIn: req.session.loggedIn,
+      user_id: req.session.user_id,
     });
   } catch (err) {
     res.status(500).json(err);
@@ -56,7 +58,6 @@ router.get("/:id", async (req, res) => {
 router.post("/:id", async (req, res) => {
   try {
     const post = await Post.findByPk(req.params.id);
-    console.log("Here's your post!", post);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
@@ -68,36 +69,52 @@ router.post("/:id", async (req, res) => {
       post_id: req.params.id,
     });
 
-    console.log("new comment:", comment);
-
     res.status(201).json({ message: "Comment added successfully" });
   } catch (err) {
     res.status(400);
   }
 });
 
-module.exports = router;
+router.get("/:id/edit", async (req, res) => {
+  const postData = await Post.findByPk(req.params.id, {
+    include: [
+      {
+        model: User,
+        attributes: ["username", "id"],
+      },
+    ],
+  });
+
+  const post = postData.get({ plain: true });
+
+  if (req.session.loggedIn) {
+    res.render("editpost", { post, loggedIn: req.session.loggedIn });
+    return;
+  }
+
+  res.redirect("/");
+});
 
 // update a single post by id -> good to go
-// router.put("/:id", async (req, res) => {
-//   try {
-//     const post = await Post.update(
-//       {
-//         title: req.body.title,
-//         body: req.body.body,
-//         // Comments
-//       },
-//       {
-//         where: {
-//           id: req.params.id,
-//         },
-//       }
-//     );
-//     res.status(200).json(post);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+router.put("/:id/edit", async (req, res) => {
+  console.log("update post route hit");
+  try {
+    const post = await Post.update(
+      {
+        title: req.body.title,
+        body: req.body.body,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // delete a single post by id
 // router.delete("/:id", async (req, res) => {
