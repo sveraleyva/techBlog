@@ -24,14 +24,14 @@
         </div>
 
         {{!-- Comments --}}
-        {{!-- {{#if post.comments.length}}
+        {{#if comments.length}}
         <div>
-            {{#each post.comments}}
+            {{#each comments as |comment|}}
             <div>
                 <p class="mx-2 hover:text-black">
-                    {{this.body}}
+                    {{comment.body}}
                 </p>
-                <p class="text-xs text-gray-400 pl-2">- {{this.user.username}} commented on {{dateFormat this.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}</p>
+                <p class="text-xs text-gray-400 pl-2">- {{comment.user.username}} commented on {{dateFormat comment.user.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}</p>
             </div>
             {{/each}}
         </div>
@@ -39,10 +39,10 @@
         {{else}}
         <div>
             <p>
-                No comments yet for this post
+                No comments yet for this post!
             </p>
         </div>
-        {{/if}} --}}
+        {{/if}}
 
         <div>
             <button id="displayComment">ADD COMMENT</button>

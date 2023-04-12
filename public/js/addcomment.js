@@ -5,7 +5,6 @@ function showForm() {
 
 async function addComment(event) {
   event.preventDefault();
-  alert("working!");
   const body = document.querySelector("#commentBody").value.trim();
   const postId = parseInt(document.querySelector("#postId").textContent.trim());
   if (body && postId) {
@@ -20,7 +19,6 @@ async function addComment(event) {
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      console.log(data);
       alert("Comment added successfully");
     } catch (err) {
       console.error(err);

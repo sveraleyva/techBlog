@@ -22,7 +22,7 @@ router.get("/:id", async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ["username"],
+          attributes: ["username", "id"],
         },
       ],
     });
@@ -37,6 +37,7 @@ router.get("/:id", async (req, res) => {
     });
 
     const comments = commentData.map((comment) => comment.get({ plain: true }));
+    console.log("comments at get single post by id route", comments);
 
     res.render("singlepost", {
       post,
@@ -51,19 +52,20 @@ router.get("/:id", async (req, res) => {
 // Add a comment to a post
 router.post("/:id", async (req, res) => {
   try {
-    console.log("post route is engaged, here's your post id", req.params.id);
     const post = await Post.findByPk(req.params.id);
     console.log("Here's your post!", post);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
-
+    console.log("user_id at add comment route", req.session.user_id);
     // Create a new comment associated with the post
     const comment = await Comment.create({
       body: req.body.body,
       user_id: req.session.user_id,
       post_id: req.params.id,
     });
+
+    console.log("new comment:", comment);
 
     res.status(201).json({ message: "Comment added successfully" });
   } catch (err) {
