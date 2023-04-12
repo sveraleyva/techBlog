@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { Post, User } = require("../../models");
+const { Post, User, Comment } = require("../../models");
 
-// make a new post -> good to go
+// Make a new post
 router.post("/", async (req, res) => {
   try {
     const postData = await Post.create({
@@ -15,20 +15,63 @@ router.post("/", async (req, res) => {
   }
 });
 
-// add a comment to a post
-router.post("/", async (req, res) => {
-  console.log("post_id: req.post.id,", req.post.id);
+// get a single post by id
+router.get("/:id", async (req, res) => {
   try {
-    const commentData = await Post.create({
-      body: req.body.commentBody,
-      user_id: req.session.user_id,
-      post_id: req.post.id,
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ["username"],
+        },
+      ],
     });
-    res.status(200).json(postData);
+
+    const post = postData.get({ plain: true });
+
+    const commentData = await Comment.findAll({
+      include: [User],
+      where: {
+        post_id: req.params.id,
+      },
+    });
+
+    const comments = commentData.map((comment) => comment.get({ plain: true }));
+
+    res.render("singlepost", {
+      post,
+      comments,
+      loggedIn: req.session.loggedIn,
+    });
   } catch (err) {
-    res.status(200).json(err);
+    res.status(500).json(err);
   }
 });
+
+// Add a comment to a post
+router.post("/:id", async (req, res) => {
+  try {
+    console.log("post route is engaged, here's your post id", req.params.id);
+    const post = await Post.findByPk(req.params.id);
+    alert("Here's your post!", post);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Create a new comment associated with the post
+    const comment = await Comment.create({
+      body: req.body.body,
+      user_id: req.session.user_id,
+      post_id: req.params.id,
+    });
+
+    res.status(201).json({ message: "Comment added successfully" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+module.exports = router;
 
 // update a single post by id -> good to go
 // router.put("/:id", async (req, res) => {

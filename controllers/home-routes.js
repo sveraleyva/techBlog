@@ -21,37 +21,20 @@ router.get("/", async (req, res) => {
   res.render("all", { posts, loggedIn: req.session.loggedIn });
 });
 
-// get a single post by id
-router.get("/:id", async (req, res) => {
-  console.log("working?");
-  try {
-    const postData = await Post.findByPk(req.params.id, {
-      include: [
-        User,
-        {
-          model: Comment,
-          required: false,
-        },
-      ],
-    });
-    console.log(postData);
-    const post = postData.get({ plain: true });
-    res.render("singlepost", { post, loggedIn: req.session.loggedIn });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
 // // get a single post by id
 // router.get("/:id", async (req, res) => {
+//   console.log("working?");
 //   try {
 //     const postData = await Post.findByPk(req.params.id, {
 //       include: [
+//         User,
 //         {
-//           model: [User],
+//           model: Comment,
+//           required: false,
 //         },
 //       ],
 //     });
+//     console.log(postData);
 //     const post = postData.get({ plain: true });
 //     res.render("singlepost", { post, loggedIn: req.session.loggedIn });
 //   } catch (err) {
