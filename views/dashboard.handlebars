@@ -1,25 +1,27 @@
-<div class="flex flex-col flex-wrap justify-evenly my-2 mx-4">
-    <div class="flex flex-row my-2 mx-4">
-        <h2 class="p-4 text-center font-bold text-2xl">YOUR POSTS</h2>
-        <div class="text-center my-4 px-8 p-2">
-            <a href="/dashboard/new" class="text-black bg-[#BFD7B5] hover:bg-[#12664F] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">MAKE A NEW POST</a>
+<div class="flex flex-col my-2 mx-4">
+    <div class="flex flex-row justify-between mx-4">
+        <h2 class="my-4 font-bold text-2xl">YOUR POSTS</h2>
+        <div class="text-center my-4 p-2">
+            <a href="/dashboard/new" class="text-white bg-[#12664F] hover:bg-[#BFD7B5] focus:ring-4 focus:outline-none focus:ring-white font-bold rounded-lg text-sm px-5 py-2.5 text-center">MAKE A NEW POST</a>
         </div>
     </div>
-    {{#each posts as |post|}}
-        <div class="post my-2 mx-2 bg-[#5C6784] border border-gray-200 shadow hover:bg-gray-100 text-white" id={{post.id}}>
-            <div class="bg-[#1D263B] flex flex-row p-1">
-                <div class="pl-1">
-                    <a class="p-4 text-lg font-semibold" href="api/post/{{post.id}}">{{post.title}}</a>
+   {{#each posts as |post|}}
+        <div class="post my-2 mx-2 bg-[#5C6784] border border-gray-200 shadow text-white" id={{post.id}}>
+            <div class="bg-[#1D263B] flex flex-row justify-between">
+                <div class="mx-2">
+                    <a class="text-lg font-semibold" href="api/post/{{post.id}}">{{post.title}}</a>
                 </div>
-                <div class="pl-6">
-                    <p class="p-4 text-sm font-light italic">
+                <div class="mx-4 mt-1">
+                    <p class="text-sm font-light italic">
                     Created on {{dateFormat post.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}
                     </p>
                 </div>
             </div>
-            <p class="mx-2 hover:text-black">
-            {{post.body}}
-            </p>
+            <div class="hover:bg-gray-100">
+                <p class="mx-2 hover:text-black">
+                    {{post.body}}
+                </p>
+            </div>
         </div>
     {{/each}}
 </div>

@@ -1,83 +1,72 @@
-<div class="flex flex-row flex-wrap justify-evenly mx-6 my-2">
+<div class="flex flex-col">
     <p class="hidden" id="postId">{{post.id}}</p>
-    <div class="my-2 mx-2 bg-[#5C6784] border border-gray-200 shadow hover:bg-gray-100 text-white">
-        
-        {{!-- Title / User Info --}}
-        <div class="bg-[#1D263B] flex flex-row p-1">
-            <div class="pl-1">
-                <p class="p-4 text-lg font-semibold">
-                {{post.title}}
-                </p>
-            </div>
-            <div class="pl-6">
-                <p class="p-4 text-sm font-light italic">
-                Created by {{post.user.username}} on {{dateFormat post.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}
-                </p>
-            </div>
-        </div>
-
-        {{!-- Body --}}
-        <div>
-            <p class="mx-2 hover:text-black">
-            {{post.body}}
-            </p>
-        </div>
-
-        {{!-- Comments --}}
-        {{#if comments.length}}
-        <div>
-            {{#each comments as |comment|}}
-            <div>
-                <p class="mx-2 hover:text-black">
-                    {{comment.body}}
-                </p>
-                <p class="text-xs text-gray-400 pl-2">{{comment.user.username}} commented on {{dateFormat comment.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}</p>
-            </div>
-            {{/each}}
-        </div>
-        {{else}}
-        <div>
-            <p>
-                No comments yet for this post!
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if loggedIn}}
-        {{!-- only logged-in users can leave comments --}}
-        <div class="text-center my-4 px-8 p-2">
-            <button class="text-black bg-[#BFD7B5] hover:bg-[#12664F] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" id="displayComment">ADD COMMENT</button>
-        </div>
-
-        <div class="w-2/3 p-4 bg-white border border-gray-200 rounded-lg shadow mx-6 my-2 sm:p-6 md:p-8 hidden" id="commentForm">
-            <form class="form space-y-6">
-                <div class="form-group">
-                    <label class="block mb-2 text-sm font-medium text-gray-900" for="body">Comment: </label>
-                    <input class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" type="text" id="commentBody"/>
-                </div>
-                <div class="form-group w-full text-white bg-[#12664F] hover:bg-[#A3C4BC] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                    <button type="submit">SUBMIT COMMENT</button>
-                </div>
-            </form>
-        </div>
-
+    <div class="flex flex-row justify-between mx-4">
+        <h2 class="my-4 font-bold text-2xl">{{post.title}}</h2>
         {{!-- Edit/Delete post --}}
         {{#if ownerOfPost}}
-        <div class="text-center my-4 px-8 p-2">
-            <a href="{{post.id}}/edit" class="text-black bg-[#BFD7B5] hover:bg-[#12664F] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">EDIT</a>
-        </div>
-        <div class="text-center my-4 px-8 p-2">
-            <button class="text-black bg-[#BFD7B5] hover:bg-[#12664F] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" id="deleteBtn">DELETE</button>
+        <div class="flex flex-row">
+            <div class="text-center my-4 mx-2">
+                <button class="text-white bg-[#12664F] hover:bg-[#BFD7B5] focus:ring-4 focus:outline-none focus:ring-white font-bold rounded-lg text-sm px-5 py-2.5 text-center" id="deleteBtn"><a href="{{post.id}}/edit">EDIT</a></button>
+            </div>
+            <div class="text-center my-4 mx-2">
+                <button class="text-white bg-[#12664F] hover:bg-[#BFD7B5] focus:ring-4 focus:outline-none focus:ring-white font-bold rounded-lg text-sm px-5 py-2.5 text-center" id="deleteBtn">DELETE</button>
+            </div>
         </div>
         {{/if}}
-
-        {{else}}
+    </div>
+    
+    <div class="flex flex-col flex-wrap justify-evenly mx-6 my-2">
         <div>
-            If you want to leave a comment or make a post, sign up or log in! 
+            <p class="text-left text-sm font-light italic">
+                Created on {{dateFormat post.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}
+            </p>
         </div>
+        <div>
+            <p>{{post.body}}</p>
+        </div>
+    </div>
 
-        {{/if}}
+    {{!-- Comments --}}
+    {{#if comments.length}}
+    <h2 class="font-bold mx-6 my-2">Comments</h2>
+    <div>
+        {{#each comments as |comment|}}
+        <div class="flex flex-row justify-between mx-6 my-2 px-4 border-[#12664F] rounded">
+            <p>{{comment.body}}</p>
+            <p class="text-left text-sm font-light italic">{{comment.user.username}} commented on {{dateFormat comment.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}</p>
+        </div>
+        {{/each}}
+    </div>
+    {{else}}
+    <div>
+        <h2 class="font-bold mx-6 my-2">No comments yet for this post!</h2>
+    </div>
+    {{/if}}
 
+    {{#if loggedIn}}
+    {{!-- only logged-in users can leave comments --}}
+    <div class="text-left mx-6 my-2">
+        <button class="text-white bg-[#12664F] hover:bg-[#BFD7B5] focus:ring-4 focus:outline-none focus:ring-white font-bold rounded-lg text-sm px-5 py-2.5 text-center" id="displayComment">ADD COMMENT</button>
+    </div>
+
+    <div class="w-2/3 p-4 bg-white border border-gray-200 rounded-lg shadow mx-6 my-2 sm:p-6 md:p-8 hidden" id="commentForm">
+        <form class="form space-y-6">
+            <div class="form-group">
+                <label class="block mb-2 text-sm font-medium text-gray-900" for="body">Comment: </label>
+                <input class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" type="text" id="commentBody"/>
+            </div>
+            <div class="form-group w-full text-white bg-[#12664F] hover:bg-[#A3C4BC] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                <button type="submit">SUBMIT COMMENT</button>
+            </div>
+        </form>
+    </div>
+    {{else}}
+    <div>
+        If you want to leave a comment or make a post, sign up or log in! 
+    </div>
+    {{/if}}
+
+        </div>
     </div>
 </div>
 
