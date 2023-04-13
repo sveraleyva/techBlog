@@ -1,5 +1,4 @@
 async function editPost(event) {
-  alert("edit post engaged!");
   event.preventDefault();
 
   const postId = parseInt(document.querySelector("#postId").textContent.trim());

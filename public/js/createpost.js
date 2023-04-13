@@ -1,6 +1,5 @@
 async function createPost(event) {
   event.preventDefault();
-  alert("working!");
   const title = document.querySelector("#title").value.trim();
   const body = document.querySelector("#body").value.trim();
   if (title && body) {

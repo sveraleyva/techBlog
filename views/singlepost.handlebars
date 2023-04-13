@@ -6,7 +6,7 @@
         {{#if ownerOfPost}}
         <div class="flex flex-row">
             <div class="text-center my-4 mx-2">
-                <button class="text-white bg-[#12664F] hover:bg-[#BFD7B5] focus:ring-4 focus:outline-none focus:ring-white font-bold rounded-lg text-sm px-5 py-2.5 text-center" id="deleteBtn"><a href="{{post.id}}/edit">EDIT</a></button>
+                <button class="text-white bg-[#12664F] hover:bg-[#BFD7B5] focus:ring-4 focus:outline-none focus:ring-white font-bold rounded-lg text-sm px-5 py-2.5 text-center"><a href="{{post.id}}/edit">EDIT</a></button>
             </div>
             <div class="text-center my-4 mx-2">
                 <button class="text-white bg-[#12664F] hover:bg-[#BFD7B5] focus:ring-4 focus:outline-none focus:ring-white font-bold rounded-lg text-sm px-5 py-2.5 text-center" id="deleteBtn">DELETE</button>
@@ -15,25 +15,25 @@
         {{/if}}
     </div>
     
-    <div class="flex flex-col flex-wrap justify-evenly mx-6 my-2">
+    <div class="flex flex-col flex-wrap mx-6 my-2 p-2 border rounded">
         <div>
-            <p class="text-left text-sm font-light italic">
-                Created on {{dateFormat post.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}
+            <p class="text-right text-sm font-light italic">
+                {{post.user.username}} posted on {{dateFormat post.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}
             </p>
         </div>
-        <div>
+         <div>
             <p>{{post.body}}</p>
         </div>
     </div>
 
     {{!-- Comments --}}
     {{#if comments.length}}
-    <h2 class="font-bold mx-6 my-2">Comments</h2>
+    <h2 class="font-bold mx-6 my-2 p-2s">Comments</h2>
     <div>
         {{#each comments as |comment|}}
-        <div class="flex flex-row justify-between mx-6 my-2 px-4 border-[#12664F] rounded">
-            <p>{{comment.body}}</p>
+        <div class="flex flex-col justify-between mx-6 my-2 px-4 border rounded">
             <p class="text-left text-sm font-light italic">{{comment.user.username}} commented on {{dateFormat comment.createdAt "MM-DD-YYYY [at] hh[:]mm A"}}</p>
+            <p>{{comment.body}}</p>
         </div>
         {{/each}}
     </div>
